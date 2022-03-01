@@ -1,6 +1,8 @@
 // @import 'burger';
 // @import 'card';
-
+.event-card .card-cell.media {
+  max-height: 100%;
+}
 .card-stack {
   position: absolute;
   top: $card-right;
@@ -80,6 +82,10 @@
 
     .card-list {
       height: auto;
+    }
+
+    .muted-text {
+      color: darken($midwhite, 15%);
     }
   }
 

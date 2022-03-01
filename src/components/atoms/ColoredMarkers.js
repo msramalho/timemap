@@ -43,6 +43,7 @@ function ColoredMarkers({ radius, colorPercentMap, styles, className }) {
             id={`arc_${idx}`}
             d={arc}
             style={extraStyles}
+            key={idx}
           />
         );
       })}

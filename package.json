@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node scripts/start.js",
     "build": "NODE_ENV=production node scripts/build.js",
+    "serve": "serve -s build",
     "dev:wsl": "HOST=0.0.0.0 npm run dev",
     "test": "node scripts/test.js --silent",
     "test:ava": "NODE_ENV=production ava --verbose",
@@ -16,7 +17,7 @@
   },
   "dependencies": {
     "@babel/core": "7.12.3",
-    "@forensic-architecture/design-system": "0.6.2",
+    "@forensic-architecture/design-system": "0.6.5",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
     "@svgr/webpack": "5.4.0",
     "@testing-library/jest-dom": "^5.11.6",

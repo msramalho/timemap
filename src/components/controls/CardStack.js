@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   Card,
-  generateCardLayout,
 } from "@forensic-architecture/design-system/dist/react";
 
 import * as selectors from "../../selectors";
@@ -56,15 +55,110 @@ class CardStack extends React.Component {
     animateScroll();
   }
 
+  generateTemplate({ event, colors, coloringSet, getFilterIdxFromColorSet }) {
+    console.log(event);
+    let cardComponents = [
+      [
+        {
+          kind: "date",
+          title: "Incident Date",
+          value: event.datetime || event.date || ``,
+        },
+        {
+          kind: "text",
+          title: "Location",
+          value: event.location || `—`,
+        },
+      ],
+      [{ kind: "line-break", times: 0.4 }],
+      [
+        {
+          kind: "text",
+          title: "Summary",
+          value: event.description || ``,
+          scaleFont: 1.1,
+        },
+      ],
+      // [{ kind: "line-break", times: 0.4 }], 
+    ];
+
+    let domainFromUrl = (url) => {
+      let matches = url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
+      return matches && matches[1];
+    }
+
+    let getViolenceLevel = (violence) => {
+      let violenceColors = {
+        1: "#8BC34A",
+        2: "#FFEB3B",
+        3: "#FFC107",
+        4: "#FF9800",
+        5: "#FF5722",
+      }
+      try {
+        let v = Number.parseInt(violence)
+        if (v >= 1) {
+          return { message: `${v}/5`, color: violenceColors[v] };
+        }
+      } catch (_) { }
+      return { message: 'unknown', color: "#FFC107" }
+    }
+
+    //TODO: hide or allow toggle on video when graphic
+    if (event.sources !== undefined) {
+      event.sources.forEach((source, sid) => {
+        let violenceLevel = getViolenceLevel(source.violence);
+        console.log(source.violence, violenceLevel)
+        cardComponents.push([{ kind: "line", times: 0.4 }]);
+        cardComponents.push([
+          {
+            kind: "markdown",
+            title: `Source #${sid + 1}`,
+            value: `<p>${source.description}</p><p><span class="muted-text">violence level: </span><span style="background-color:${violenceLevel.color}">${violenceLevel.message}</span></p>`
+          },
+        ]);
+        cardComponents.push([
+          {
+            kind: "button",
+            value:
+              [[source.url, `original (${domainFromUrl(source.url)})`],
+              [source.archive, 'archive']]
+                .filter(([url, _]) => url !== undefined && url !== "")
+                .map(([url, text]) => ({
+                  text: text,
+                  href: url,
+                  color: null,
+                  onClick: () => window.open(url, "_blank"),
+                })),
+          },
+        ]);
+        if (source.archive !== undefined) {
+          cardComponents.push([
+            {
+              kind: "media",
+              title: `Media ${sid + 1}`,
+              value: [{ src: source.archive }]
+            },
+          ]);
+        }
+      })
+    }
+
+    return cardComponents;
+  }
+
   renderCards(events, selections) {
     // if no selections provided, select all
     if (!selections) {
       selections = events.map((e) => true);
     }
     this.refs = [];
-
-    const generateTemplate =
-      generateCardLayout[this.props.cardUI.layout.template];
+    /**
+     * In the original version the following code is used:
+     * `const generateTemplate = generateCardLayout[this.props.cardUI.layout.template];`
+     * and `this.props.cardUI.layout.template` defaults to `basic` but could be other values
+     * if configured here: https://github.com/forensic-architecture/design-system/blob/master/src/lib/templates/
+    */
 
     return events.map((event, idx) => {
       const thisRef = React.createRef();
@@ -73,7 +167,7 @@ class CardStack extends React.Component {
       return (
         <Card
           ref={thisRef}
-          content={generateTemplate({
+          content={this.generateTemplate({
             event,
             colors: this.props.colors,
             coloringSet: this.props.coloringSet,
@@ -90,6 +184,7 @@ class CardStack extends React.Component {
   renderSelectedCards() {
     const { selected } = this.props;
 
+    console.log(selected)
     if (selected.length > 0) {
       return this.renderCards(selected);
     }
