@@ -309,6 +309,9 @@ export function selectTypeFromPath(path) {
 
 export function typeForPath(path) {
   let type;
+  if (path === undefined) {
+    return "Unknown";
+  }
   path = path.trim();
   switch (true) {
     case /\.((png)|(jpg)|(jpeg))$/.test(path):
