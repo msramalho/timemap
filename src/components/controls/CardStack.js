@@ -134,16 +134,16 @@ class CardStack extends React.Component {
         //   },
         // ]);
         console.log("card button ready");
-        // if (source.archive !== undefined) {
-        //   cardComponents.push([
-        //     {
-        //       kind: "media",
-        //       title: `Media ${sid + 1}`,
-        //       value: [{ src: source.archive }]
-        //     },
-        //   ]);
-        //   console.log("card media ready");
-        // }
+        if (source.archive !== undefined) {
+          cardComponents.push([
+            {
+              kind: "media",
+              title: `Media ${sid + 1}`,
+              value: [{ src: source.archive }]
+            },
+          ]);
+          console.log("card media ready");
+        }
       })
     }
     console.log("card components ready");
