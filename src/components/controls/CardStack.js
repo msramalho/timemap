@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   Card,
 } from "@forensic-architecture/design-system/dist/react";
+// import {Card} from "../design-system/components/Card/Card.React.js"
 
 import * as selectors from "../../selectors";
 import { getFilterIdxFromColorSet } from "../../common/utilities";
@@ -134,16 +135,16 @@ class CardStack extends React.Component {
           },
         ]);
         console.log("card button ready");
-        if (source.archive !== undefined) {
-          cardComponents.push([
-            {
-              kind: "media",
-              title: `Media ${sid + 1}`,
-              value: [{ src: source.archive, title: "" }]
-            },
-          ]);
-          console.log("card media ready");
-        }
+        // if (source.archive !== undefined) {
+        // cardComponents.push([
+        //   {
+        //     kind: "media",
+        //     title: `Media ${sid + 1}`,
+        //     value: [{ src: source.archive}]
+        //   },
+        // ]);
+        // console.log("card media ready");
+        // }
       })
     }
     console.log("card components ready");
