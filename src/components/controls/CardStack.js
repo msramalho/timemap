@@ -118,32 +118,32 @@ class CardStack extends React.Component {
           },
         ]);
         console.log("card markdown ready");
-        // cardComponents.push([
-        //   {
-        //     kind: "button",
-        //     value:
-        //       [[source.url, `original (${domainFromUrl(source.url)})`],
-        //       [source.archive, 'archive']]
-        //         .filter(([url, _]) => url !== undefined && url !== "")
-        //         .map(([url, text]) => ({
-        //           text: text,
-        //           href: url,
-        //           color: null,
-        //           onClick: () => window.open(url, "_blank"),
-        //         })),
-        //   },
-        // ]);
+        cardComponents.push([
+          {
+            kind: "button",
+            value:
+              [[source.url, `original (${domainFromUrl(source.url)})`],
+              [source.archive, 'archive']]
+                .filter(([url, _]) => url !== undefined && url !== "")
+                .map(([url, text]) => ({
+                  text: text,
+                  href: url,
+                  color: null,
+                  onClick: () => window.open(url, "_blank"),
+                })),
+          },
+        ]);
         console.log("card button ready");
-        if (source.archive !== undefined) {
-          cardComponents.push([
-            {
-              kind: "media",
-              title: `Media ${sid + 1}`,
-              value: [{ src: source.archive }]
-            },
-          ]);
-          console.log("card media ready");
-        }
+        // if (source.archive !== undefined) {
+        //   cardComponents.push([
+        //     {
+        //       kind: "media",
+        //       title: `Media ${sid + 1}`,
+        //       value: [{ src: source.archive }]
+        //     },
+        //   ]);
+        //   console.log("card media ready");
+        // }
       })
     }
     console.log("card components ready");
