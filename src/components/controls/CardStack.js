@@ -117,6 +117,7 @@ class CardStack extends React.Component {
             value: `<p>${source.description}</p><p><span class="muted-text">violence level: </span><span style="background-color:${violenceLevel.color}">${violenceLevel.message}</span></p>`
           },
         ]);
+        console.log("card markdown ready");
         cardComponents.push([
           {
             kind: "button",
@@ -132,6 +133,7 @@ class CardStack extends React.Component {
                 })),
           },
         ]);
+        console.log("card button ready");
         if (source.archive !== undefined) {
           cardComponents.push([
             {
@@ -140,9 +142,11 @@ class CardStack extends React.Component {
               value: [{ src: source.archive }]
             },
           ]);
+          console.log("card media ready");
         }
       })
     }
+    console.log("card components ready");
 
     return cardComponents;
   }
